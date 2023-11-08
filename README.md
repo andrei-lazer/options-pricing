@@ -1,3 +1,4 @@
+
 # Options Pricing
 An exploration of various different options pricing methods in C++.
 
@@ -6,23 +7,17 @@ Here, I have used the common closed form solution for the value of a european op
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma S^2 \frac{\partial^2 V}{\partial S^2} + rS\frac{\partial V}{\partial S} - rV = 0$$
 
 Solving this for the boundary conditions of a call option,
-$$
-C(0, t) = 0    \enspace \forall t \\
-C(S, t) \rightarrow S \enspace \text{as} \enspace S \rightarrow \infty \\
-C(S, T) = \operatorname{max}\{S-K, 0\}
-$$
+$$C(0, t) = 0  \enspace \forall t$$
+$$C(S, t) \rightarrow S \enspace \text{as} \enspace S \rightarrow \infty$$
+$$C(S, T) = \max\{S-K, 0\}$$
 
 gives the following closed form:
 
-$$
-C(S, t) = N(d_+)S - N(d_-)Ke^{-r(T-t)}
+$$C(S, t) = N(d_+)S - N(d_-)Ke^{-r(T-t)}$$
 
-\\[10pt]
+$$d_+ = \frac{1}{\sqrt{T - t}}\left[\ln\left(\frac{S}{K}\right) + \left(r + \frac{\sigma^2}{2}\right)\left(T - t\right)\right]$$
 
-d_+ = \frac{1}{\sqrt{T - t}}\left[\ln\left(\frac{S}{K}\right) + \left(r + \frac{\sigma^2}{2}\right)\left(T - t\right)\right] \\[5pt]
-
-d_- = d_+ - \sigma\sqrt{T - t}.
-$$
+$$d_- = d_+ - \sigma\sqrt{T - t}.$$
 
 
 Where $N(x)$ is the c.d.f of the normal distribution.
