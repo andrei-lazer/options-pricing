@@ -36,3 +36,30 @@ Call price: 6.80496
 Put price: 1.9279
 ```
 
+## Binomial Options Pricing for American Options
+This approach uses a binomial tree to generate possible paths of an option, and backtracks through the tree to find the current valuation as a recursive expression in terms of the value of the option at all other nodes in the tree. Essentially, we discretise the time and act like the underlying can either move up by $u$ ($S_{\text{up}} = S \cdot u$) or down by $d = \frac{1}{u}$ ($S_{\text{down}} = S \cdot d$).
+
+First, the tree is generated. This model will be recombinant, which means a moves up and down commute, since we're multiplying by constant $u$ and $d$ factors. There are other models where $u$ and $d$ depend on changing factors, usually the price of the underlying. An example would be mean reversal. I am not doing that here.
+
+If $S_n$ is the value of some node with index $n$, $S_0$ is the value of the underlying at time $T=0$, then:
+$$S_n = S_{0} \cdot u^{N_u - N_d}$$
+
+Where $N_u$ is the number of up movements and $N_d$ the number of down movememnts to get to node $n$.
+
+This will only focus on call optoins, since we can derive the price of a put option using put-call parity.
+
+Therefore, the price of a call option at node $n$ is $\max\{S_n - K, 0\}$, with $K$ the strike price.
+
+
+The interesting part is how we price the option. We find the expected value of the option in the future, and discount it by the risk-free rate.
+
+$$\text{Price} = p \times (\text{Price of option if it goes up}) + (1 - p) \times (\text{Price of option if it goes down})$$
+
+$$C_{t-\Delta t, i} = e^{-r\Delta t}\left(pC_{t, i} + (1 - p)C_{t, i+1}\right)$$
+
+Where $C_{t, i}$ is the price of the call option at node $i$ and time $t$. $\Delta t$ is the discrete time step we're taking. The smaller this is, the more accurate our simulation is.
+
+$$p = \frac{e^{r\Delta t} - d}{u - d}$$
+
+$p$ is set so that the binomial distribution tends to the geometric brownian motion of the underlying as $\Delta t \to 0$.
+
