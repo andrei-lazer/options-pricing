@@ -8,15 +8,15 @@ double N(double value) {
     return 0.5 * erfc(-value * pow(0.5, 0.5));
 }
 
-double call_price(double S, double sigma, double T, double K, double r, double t) {
-    double d_plus = (1 / (sigma * pow(T - t, 0.5))) * (log(S / K) + (r + sigma * sigma * 0.5) * (T - t));
-    double d_minus = d_plus - sigma * pow(T - t, 0.5);
+double call_price(double S, double sigma, double T, double K, double r) {
+    double d_plus = (1 / (sigma * pow(T, 0.5))) * (log(S / K) + (r + sigma * sigma * 0.5) * (T));
+    double d_minus = d_plus - sigma * pow(T, 0.5);
 
-    return N(d_plus) * S - N(d_minus) * K * exp(-r * (T - t));
+    return N(d_plus) * S - N(d_minus) * K * exp(-r * (T));
 }
 
-double put_price(double S, double sigma, double T, double K, double r, double t) {
-    return call_price(S, sigma, T, K, r, t) - S + K * exp(-r * (T - t));
+double put_price(double S, double sigma, double T, double K, double r) {
+    return call_price(S, sigma, T, K, r) - S + K * exp(-r * T);
 }
 
 
@@ -30,6 +30,6 @@ int main()
     std::cout << "Enter time to expiry (in years): "; std::cin >> T;
 
     std::cout << "\nPrice of underlying: " << S << "\nStrike price: " << K << "\nRisk-free rate: " << r << "\nVolatility: " << v << "\nTime to expiry: " << T << std::endl;
-    std::cout << "Call price: " << call_price(S, v, T, K, r, 0) << "\nPut price: " << put_price(S, v, T, K, r, 0) << std::endl;
+    std::cout << "Call price: " << call_price(S, v, T, K, r) << "\nPut price: " << put_price(S, v, T, K, r) << std::endl;
 
 }
