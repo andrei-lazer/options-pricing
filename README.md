@@ -2,7 +2,7 @@
 # Options Pricing
 An exploration of various different options pricing methods in C++.
 
-## Analytic European Options Pricing
+## Black-Scholes European Options Pricing
 Here, I have used the common closed form solution for the value of a european option derived from the Black-Scholes equation:
 $$\frac{\partial V}{\partial t} + \frac{1}{2}\sigma S^2 \frac{\partial^2 V}{\partial S^2} + rS\frac{\partial V}{\partial S} - rV = 0$$
 
